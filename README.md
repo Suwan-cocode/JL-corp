@@ -1,1 +1,1 @@
-# JL-corp.
+# JL-corp
