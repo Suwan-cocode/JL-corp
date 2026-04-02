@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JL Interactive Magazine</title>
+
+<style>
+body {
+  margin: 0;
+  overflow-x: hidden;
+  font-family: Arial, sans-serif;
+}
+
+/* Canvas 전체 화면 */
+canvas {
+  display: block;
+}
+
+/* 오른쪽 갤러리 */
+#gallery {
+  position: fixed;
+  right: 20px;
+  top: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 5;
+}
+
+#gallery img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+/* 팝업 */
+#popup {
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 400px;
+  height: 100%;
+  background: white;
+  box-shadow: -10px 0 30px rgba(0,0,0,0.2);
+  transition: right 0.4s ease;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#popup.open {
+  right: 0;
+}
+
+#popup img {
+  max-width: 80%;
+  max-height: 60%;
+}
+
+#popup p {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+</style>
+</head>
+<body>
+
+<canvas id="canvas"></canvas>
+
+<!-- 갤러리 및 팝업 영역 -->
+<div id="gallery"></div>
+<div id="popup"></div>
+
+<script type="module" src="./content.js"></script>
+<script type="module" src="./main.js"></script>
+
+</body>
+</html>
