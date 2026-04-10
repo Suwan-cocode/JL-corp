@@ -24,16 +24,16 @@ canvas {
   top: 100px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 4px; /* 간격 줄임 */
   z-index: 5;
 }
 
 #gallery img {
-  width: 80px;
-  height: 80px;
+  width: 160px;   /* 2배 크기 */
+  height: 160px;  /* 2배 크기 */
   object-fit: cover;
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: 0; /* 모서리 각지게 */
 }
 
 /* 팝업 */
