@@ -30,11 +30,11 @@ const gallery = document.getElementById("gallery");
 const popup = document.getElementById("popup");
 
 const images = [
-  { src: "https://picsum.photos/300?1", text: "Image 1" },
-  { src: "https://picsum.photos/300?2", text: "Image 2" },
-  { src: "https://picsum.photos/300?3", text: "Image 3" },
-  { src: "https://picsum.photos/300?4", text: "Image 4" },
-  { src: "https://picsum.photos/300?5", text: "Image 5" }
+  { src: "./images/img1.jpg", text: "Image 1" },
+  { src: "./images/img2.jpg", text: "Image 2" },
+  { src: "./images/img3.jpg", text: "Image 3" },
+  { src: "./images/img4.jpg", text: "Image 4" },
+  { src: "./images/img5.jpg", text: "Image 5" }
 ];
 
 images.forEach((img, i) => {
