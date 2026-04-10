@@ -30,11 +30,11 @@ const gallery = document.getElementById("gallery");
 const popup = document.getElementById("popup");
 
 const images = [
-  { src: "./images/img1.jpg", text: "Image 1" },
-  { src: "./images/img2.jpg", text: "Image 2" },
-  { src: "./images/img3.jpg", text: "Image 3" },
-  { src: "./images/img4.jpg", text: "Image 4" },
-  { src: "./images/img5.jpg", text: "Image 5" }
+  { src: "./images/img1.jpg", text: "Img1" },
+  { src: "./images/img2.jpg", text: "Img2" },
+  { src: "./images/img3.jpg", text: "Img3" },
+  { src: "./images/img4.jpg", text: "Img4" },
+  { src: "./images/img5.jpg", text: "Img5" }
 ];
 
 images.forEach((img, i) => {
