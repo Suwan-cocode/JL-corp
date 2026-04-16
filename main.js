@@ -174,6 +174,9 @@ function drawColumn(lines, offsetX) {
   popupX += (popupTargetX - popupX) * 0.12;
 
   // 충돌 트리거 (팝업 근처 글자 활성화)
+  const isOpen = popup.classList.contains("open");
+
+if (isOpen) {
   for (let item of itemsFlat) {
     if (!item.active && item.x + item.width > popupX - popupOffset) {
       item.active = true;
@@ -181,57 +184,87 @@ function drawColumn(lines, offsetX) {
       item.vy = (Math.random() - 0.5) * 5;
     }
   }
+}
 
   // 물리
-  for (let item of itemsFlat) {
-    if (item.active) {
-      item.x += item.vx;
-      item.y += item.vy;
+for (let item of itemsFlat) {
 
-      item.vx *= 0.98;
-      item.vy *= 0.98;
+  if (item.active) {
+    // 👉 팝업 열렸을 때: 날림
+    item.x += item.vx;
+    item.y += item.vy;
 
-      item.vx += (Math.random() - 0.5) * 0.05;
-      item.vy += (Math.random() - 0.5) * 0.05;
+    item.vx *= 0.98;
+    item.vy *= 0.98;
 
-      if (item.x < 0 || item.x > canvas.width) item.vx *= -1;
-      if (item.y < 0 || item.y > canvas.height) item.vy *= -1;
+    item.vx += (Math.random() - 0.5) * 0.05;
+    item.vy += (Math.random() - 0.5) * 0.05;
 
-      // 팝업과 충돌
-      if (item.x + item.width > popupX && item.x < popupX + popupOffset) {
-        item.vx = -Math.abs(item.vx);
-      }
+    if (item.x < 0 || item.x > canvas.width) item.vx *= -1;
+    if (item.y < 0 || item.y > canvas.height) item.vy *= -1;
+
+    if (item.x + item.width > popupX && item.x < popupX + popupOffset) {
+      item.vx = -Math.abs(item.vx);
     }
+
+    // 🔥 팝업 닫히면 → 복귀 모드로 전환
+    if (!isOpen) {
+      item.active = false;
+    }
+
+  } else {
+    // 👉 팝업 닫힘: 원위치로 끌어당김 (중력 느낌)
+    const dx = item.targetX - item.x;
+    const dy = item.targetY - item.y;
+
+    item.vx += dx * 0.05;
+    item.vy += dy * 0.05;
+
+    item.vx *= 0.85;
+    item.vy *= 0.85;
+
+    item.x += item.vx;
+    item.y += item.vy;
   }
+}
 
   resolveCollisions(itemsFlat);
 
-  // 기본 레이아웃
-  let startY = 80 - window.scrollY;
-  for (let row = 0; row < lines.length; row++) {
-    const line = lines[row];
-    let y = startY + row * lineHeight;
-    let currentX = offsetX;
+// 기본 레이아웃
+let startY = 80 - window.scrollY;
 
-    for (let item of line) {
-      if (!item.active) {
-        if (item.x === 0 && item.y === 0) {
-          item.x = currentX;
-          item.y = y;
-        }
+for (let row = 0; row < lines.length; row++) {
+  const line = lines[row];
+  let y = startY + row * lineHeight;
+  let currentX = offsetX;
 
-        const force = pushForce(item.x, item.y);
-        item.targetX = currentX + force.x;
-        item.targetY = y + force.y;
+  for (let item of line) {
 
-        item.x += (item.targetX - item.x) * 0.18;
-        item.y += (item.targetY - item.y) * 0.18;
+    // 🔥 항상 "원래 자리" 기준으로 target 계산
+    const force = pushForce(currentX, y);
+    item.targetX = currentX + force.x;
+    item.targetY = y + force.y;
 
-        currentX += item.width + letterSpacing;
-      }
-
-      ctx.fillText(item.char, item.x, item.y);
+    // 처음 한 번만 위치 세팅
+    if (item.x === 0 && item.y === 0) {
+      item.x = item.targetX;
+      item.y = item.targetY;
     }
+
+    // ------------------------
+    // 🟢 active 아닐 때 → 정렬 / 복귀 (부드럽게)
+    if (!item.active) {
+      item.x += (item.targetX - item.x) * 0.12;
+      item.y += (item.targetY - item.y) * 0.12;
+    }
+
+    // 🔴 active일 때는 (날아가는 상태)
+    // → 여기선 건드리지 않음 (위 물리 코드가 처리)
+
+    ctx.fillText(item.char, item.x, item.y);
+
+    // 🔥 반드시 항상 증가 (중요)
+    currentX += item.width + letterSpacing;
   }
 }
 
