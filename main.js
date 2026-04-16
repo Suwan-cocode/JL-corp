@@ -325,6 +325,7 @@ function render() {
 }
 
 // ------------------------
+// 마우스
 window.addEventListener("mousemove", (e) => {
   mouse.x = e.clientX;
   mouse.y = e.clientY;
@@ -335,11 +336,42 @@ window.addEventListener("mousemove", (e) => {
   isMouseInside = true;
 });
 
-document.addEventListener("mouseleave", () => { isMouseInside = false; });
-document.addEventListener("mouseenter", () => { isMouseInside = true; });
+document.addEventListener("mouseleave", () => { 
+  isMouseInside = false; 
+});
+
+document.addEventListener("mouseenter", () => { 
+  isMouseInside = true; 
+});
+
+// ------------------------
+// 🔥 리사이즈 (핵심 안정화)
 window.addEventListener("resize", () => {
+  // 캔버스 크기 갱신
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
+
+  // 🔥 팝업 위치 기준 재계산 (핵심)
+  popupTargetX = window.innerWidth - 320;
+
+  // 🔥 팝업 닫혀있으면 항상 화면 밖으로 초기화
+  if (!popup.classList.contains("open")) {
+    popupX = canvas.width;
+  }
+
+  // 🔥 trail 초기화 (잔상 튀는거 방지)
+  trail = [];
+
+  // 🔥 (선택) 글자 위치 안정화
+  for (let line of [...col1, ...col2]) {
+    for (let item of line) {
+      if (!item.active) {
+        item.x = 0;
+        item.y = 0;
+      }
+    }
+  }
+});
 });
 
 render();
