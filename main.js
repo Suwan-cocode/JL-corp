@@ -324,7 +324,6 @@ function render() {
   requestAnimationFrame(render);
 }
 
-// ------------------------
 // 마우스
 window.addEventListener("mousemove", (e) => {
   mouse.x = e.clientX;
@@ -344,25 +343,19 @@ document.addEventListener("mouseenter", () => {
   isMouseInside = true;
 });
 
-// ------------------------
-// 🔥 리사이즈 (최종 안정화 버전)
+// 리사이즈
 window.addEventListener("resize", () => {
-  // 캔버스 크기 갱신
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
-  // 팝업 위치 기준 재계산
   popupTargetX = window.innerWidth - 320;
 
-  // 팝업 닫혀있으면 항상 화면 밖으로
   if (!popup.classList.contains("open")) {
     popupX = canvas.width;
   }
 
-  // trail 초기화
   trail = [];
 
-  // 🔥 핵심: 위치 초기화 ❌ → 물리 상태만 초기화
   for (let line of [...col1, ...col2]) {
     for (let item of line) {
       item.active = false;
@@ -371,9 +364,5 @@ window.addEventListener("resize", () => {
     }
   }
 
-  // 팝업 영향 제거
   popupOffset = 0;
 });
-
-// ------------------------
-render();
