@@ -182,12 +182,21 @@ function drawColumn(lines, offsetX) {
     popupX = canvas.width;
   }
 
-  // 충돌 트리거 (팝업 근처 글자 활성화)
-  const isOpen = popup.classList.contains("open");
+// 충돌 트리거 (팝업 근처 글자 활성화)
+const isOpen = popup.classList.contains("open");
 
-if (isOpen && isLayoutReady) {
+if (isOpen && popupOffset > 0) {
   for (let item of itemsFlat) {
-    if (!item.active && item.x + item.width > popupX - popupOffset) {
+
+    // 🔥 아직 초기 위치 안 잡힌 애들 제외
+    if (item.x === 0 && item.y === 0) continue;
+
+    // 🔥 팝업 "영역 안에 들어온 경우만" 트리거
+    const isInsidePopupRange =
+      item.x + item.width > popupX &&
+      item.x < popupX + popupOffset;
+
+    if (!item.active && isInsidePopupRange) {
       item.active = true;
       item.vx = -6 - Math.random() * 3;
       item.vy = (Math.random() - 0.5) * 5;
