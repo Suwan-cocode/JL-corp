@@ -259,8 +259,6 @@ function render() {
     ctx.globalAlpha = opacity;
     ctx.fillText("JL", mouse.x, mouse.y);
   }
-
-document.body.style.cursor = "none"; //커서제거
   
 
    // 왼쪽 상단 JL corp. 로고 추가
