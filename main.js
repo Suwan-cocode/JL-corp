@@ -170,8 +170,17 @@ function drawColumn(lines, offsetX) {
   let itemsFlat = [];
   for (let line of lines) itemsFlat.push(...line);
 
-  // 팝업 이동
-  popupX += (popupTargetX - popupX) * 0.12;
+  // 🔥 팝업 상태 체크
+  const isOpen = popup.classList.contains("open");
+
+  // ------------------------
+  // 🔥 팝업 위치 제어 (핵심 수정)
+  if (isOpen) {
+    popupX += (popupTargetX - popupX) * 0.12;
+  } else {
+    // 👉 닫혀있을 때는 항상 화면 밖에 고정
+    popupX = canvas.width;
+  }
 
   // 충돌 트리거 (팝업 근처 글자 활성화)
   const isOpen = popup.classList.contains("open");
