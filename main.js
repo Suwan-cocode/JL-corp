@@ -185,7 +185,7 @@ function drawColumn(lines, offsetX) {
   // 충돌 트리거 (팝업 근처 글자 활성화)
   const isOpen = popup.classList.contains("open");
 
-if (isOpen) {
+if (isOpen && isLayoutReady) {
   for (let item of itemsFlat) {
     if (!item.active && item.x + item.width > popupX - popupOffset) {
       item.active = true;
