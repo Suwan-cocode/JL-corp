@@ -260,6 +260,10 @@ function render() {
     ctx.fillText("JL", mouse.x, mouse.y);
   }
 
+  body {
+  cursor: none;
+}
+
    // 왼쪽 상단 JL corp. 로고 추가
   ctx.save(); // 현재 상태 저장
   ctx.globalAlpha = 1;
