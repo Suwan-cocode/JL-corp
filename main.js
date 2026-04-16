@@ -372,6 +372,6 @@ window.addEventListener("resize", () => {
     }
   }
 });
-});
+  
 
 render();
